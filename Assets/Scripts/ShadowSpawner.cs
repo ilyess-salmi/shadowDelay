@@ -4,18 +4,27 @@ public class ShadowSpawner : MonoBehaviour
 {
     public GameObject shadowPrefab;
     public Transform player;
-    public float delay = 2f;
+
+    public int numberOfShadows = 3;
+    public float delayBetweenShadows = 2f;
 
     void Start()
     {
-        GameObject shadow = Instantiate(shadowPrefab, player.position, Quaternion.identity);
-
-        ShadowFollower follower = shadow.GetComponent<ShadowFollower>();
-
-        if (follower != null)
+        for (int i = 0; i < numberOfShadows; i++)
         {
-            follower.target = player;
-            follower.delaySeconds = delay;
+            float delay = delayBetweenShadows * (i + 1);
+
+            GameObject shadow = Instantiate(shadowPrefab, player.position, Quaternion.identity);
+
+            ShadowFollower follower = shadow.GetComponent<ShadowFollower>();
+
+            if (follower != null)
+            {
+                follower.target = player;
+                follower.delaySeconds = delay;
+            }
+
+            Debug.Log("Spawned shadow with delay: " + delay);
         }
     }
 }

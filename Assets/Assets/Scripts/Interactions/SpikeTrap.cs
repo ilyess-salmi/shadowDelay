@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class SpikeTrap : MonoBehaviour
 {
-    [Header("Respawn Points")]
     public Transform playerRespawnPoint;
     public Transform shadowRespawnPoint;
 
-    [Header("Death Settings")]
     public float respawnDelay = 0.8f;
     public float deathRotationZ = -90f;
 
@@ -20,84 +18,50 @@ public class SpikeTrap : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            StartCoroutine(HandleDeath(other.gameObject));
+            StartCoroutine(HandleDeath(other.gameObject, true));
+        }
+        else if (other.CompareTag("Shadow"))
+        {
+            // Le shadow ne meurt pas
+            Debug.Log("Shadow touched spikes but survives.");
         }
     }
 
-    private IEnumerator HandleDeath(GameObject player)
+    private IEnumerator HandleDeath(GameObject character, bool isPlayer)
     {
         isRespawning = true;
 
-        // ===== PLAYER =====
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+        Rigidbody2D rb = character.GetComponent<Rigidbody2D>();
+        CharacterMovement movement = character.GetComponent<CharacterMovement>();
 
-        if (playerMovement != null)
-            playerMovement.enabled = false;
+        if (movement != null)
+            movement.enabled = false;
 
-        if (playerRb != null)
+        if (rb != null)
         {
-            playerRb.linearVelocity = Vector2.zero;
-            playerRb.angularVelocity = 0f;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
         }
 
-        // rotation 90°
-        player.transform.rotation = Quaternion.Euler(0f, 0f, deathRotationZ);
+        character.transform.rotation = Quaternion.Euler(0f, 0f, deathRotationZ);
 
-        // ===== SHADOW =====
-        GameObject shadow = GameObject.FindGameObjectWithTag("Shadow");
-
-        if (shadow != null)
-        {
-            ShadowFollower shadowFollower = shadow.GetComponent<ShadowFollower>();
-            Rigidbody2D shadowRb = shadow.GetComponent<Rigidbody2D>();
-
-            if (shadowFollower != null)
-                shadowFollower.enabled = false;
-
-            if (shadowRb != null)
-            {
-                shadowRb.linearVelocity = Vector2.zero;
-                shadowRb.angularVelocity = 0f;
-            }
-        }
-
-        // attendre un peu
         yield return new WaitForSeconds(respawnDelay);
 
-        // ===== RESET PLAYER =====
-        if (playerRespawnPoint != null)
-            player.transform.position = playerRespawnPoint.position;
+        if (isPlayer && playerRespawnPoint != null)
+            character.transform.position = playerRespawnPoint.position;
+        else if (!isPlayer && shadowRespawnPoint != null)
+            character.transform.position = shadowRespawnPoint.position;
 
-        player.transform.rotation = Quaternion.identity;
+        character.transform.rotation = Quaternion.identity;
 
-        if (playerRb != null)
+        if (rb != null)
         {
-            playerRb.linearVelocity = Vector2.zero;
-            playerRb.angularVelocity = 0f;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
         }
 
-        if (playerMovement != null)
-            playerMovement.enabled = true;
-
-        // ===== RESET SHADOW (IMPORTANT) =====
-        if (shadow != null && shadowRespawnPoint != null)
-        {
-            ShadowFollower shadowFollower = shadow.GetComponent<ShadowFollower>();
-
-            if (shadowFollower != null)
-            {
-                // 🔥 reset du trail (fix du bug que tu avais)
-                shadowFollower.ResetShadowTrail(shadowRespawnPoint.position);
-                shadowFollower.enabled = true;
-            }
-            else
-            {
-                shadow.transform.position = shadowRespawnPoint.position;
-            }
-
-            shadow.transform.rotation = Quaternion.identity;
-        }
+        if (movement != null)
+            movement.enabled = true;
 
         isRespawning = false;
     }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 999839287455521356}
   - component: {fileID: 2666577726091128972}
   - component: {fileID: 6767179970025762271}
-  - component: {fileID: 3253415478065164664}
+  - component: {fileID: -2494883326056273409}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Shadow
@@ -167,7 +167,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3253415478065164664
+--- !u!114 &-2494883326056273409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,8 +176,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 674526779503667111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c93b6357ffab874985cba4178a743bb, type: 3}
+  m_Script: {fileID: 11500000, guid: ea76ba3d721b92f4099ff01d29dc1e88, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShadowFollower
-  target: {fileID: 0}
-  delaySeconds: 2
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  moveSpeed: 5
+  jumpForce: 7
+  canJump: 1

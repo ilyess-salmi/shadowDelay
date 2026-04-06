@@ -2,13 +2,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(AudioSource))]
 public class CharacterMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 7f;
     public bool canJump = true;
 
+    [Header("Audio")]
+    public AudioClip jumpSound;
+
     private Rigidbody2D rb;
+    private AudioSource audioSource;
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
@@ -16,6 +21,7 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -34,6 +40,10 @@ public class CharacterMovement : MonoBehaviour
                 isGrounded)
             {
                 jumpRequested = true;
+
+                // Jouer le son de saut
+                if (jumpSound != null && audioSource != null)
+                    audioSource.PlayOneShot(jumpSound);
             }
         }
     }

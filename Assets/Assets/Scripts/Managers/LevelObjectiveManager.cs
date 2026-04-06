@@ -7,7 +7,7 @@ public class LevelObjectiveManager : MonoBehaviour
 
     [Header("Objectives")]
     public int totalDiamonds = 0;
-    private int collectedDiamonds = 0;
+    public int collectedDiamonds = 0;
     private bool keyCollected = false;
 
     [Header("Lever / Blocker")]

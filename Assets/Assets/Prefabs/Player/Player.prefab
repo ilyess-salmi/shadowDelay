@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2220497937703785788}
   - component: {fileID: 7131117729993051704}
   - component: {fileID: 1380754025838878868}
-  - component: {fileID: 6969905431267992768}
+  - component: {fileID: 4971344915527110005}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,8 +166,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!114 &6969905431267992768
+  m_Constraints: 0
+--- !u!114 &4971344915527110005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,9 +176,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397931826681368698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea76ba3d721b92f4099ff01d29dc1e88, type: 3}
+  m_Script: {fileID: 11500000, guid: 58428a5662f035d4294297a3ea47601f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 2
-  jumpForce: 7
-  canJump: 1
+  jumpForce: 3

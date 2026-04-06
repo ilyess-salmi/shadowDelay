@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,10 +10,22 @@ public class PlayerMovement : MonoBehaviour
     private float moveInput = 0f;
     private bool jumpRequested = false;
     private bool isGrounded = false;
+    private SpriteRenderer sr;
+
+    // 🔊 AUDIO
+    private PlayerAudio playerAudio;
+    private Vector3 originalScale;
+
+    // 🎬 ANIMATOR
+    private Animator animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        playerAudio = GetComponent<PlayerAudio>();
+        animator = GetComponent<Animator>();
+        originalScale = transform.localScale;
     }
 
     void Update()
@@ -28,8 +40,15 @@ public class PlayerMovement : MonoBehaviour
                 moveInput = 1f;
 
             if ((Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame) && isGrounded)
+            {
                 jumpRequested = true;
+                playerAudio.PlayJump(); // 🔊 SON DU SAUT
+            }
         }
+
+        // 🎬 ANIMATION
+        bool isRunning = Mathf.Abs(rb.linearVelocity.x) > 0.1f;
+        animator.SetBool("isRunning", isRunning);
     }
 
     void FixedUpdate()

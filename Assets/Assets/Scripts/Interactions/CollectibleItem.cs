@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollectibleItem : MonoBehaviour
 {
@@ -14,6 +14,10 @@ public class CollectibleItem : MonoBehaviour
     {
         if (!other.CompareTag("Player"))
             return;
+
+        PlayerAudio playerAudio = other.GetComponent<PlayerAudio>();
+        if (playerAudio != null)
+            playerAudio.PlayCollect();
 
         if (type == CollectibleType.Diamond)
         {

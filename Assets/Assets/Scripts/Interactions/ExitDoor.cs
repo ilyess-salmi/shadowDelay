@@ -10,8 +10,16 @@ public class ExitDoor : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        Debug.Log("Level Complete");
+        if (LevelObjectiveManager.Instance.CanOpenDoor())
+        {
+            Debug.Log("Level Complete");
 
-        SceneManager.LoadScene(nextSceneName);
+            if (!string.IsNullOrEmpty(nextSceneName))
+                SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.Log("Il faut récupérer tous les diamants, la clé, et activer le lever.");
+        }
     }
 }
